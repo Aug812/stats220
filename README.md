@@ -1,11 +1,25 @@
 # stats220
+I love stats220 because it is *fun* and **educational**.
 
-This is my repo for STATS 220. 
+1.I am interested in learning stats220 about type code 
 
-A little about me: 
+*study
 
-- I am undertaking a degree in data sci
-- I am taking STATS 220 because i finshed my stats101
-- I am interested in learning about type code in data
+Here's a fun GIF to enjoy while studying stats220 or during your Valorant breaks:
 
-A meme that captures how I currently feel about my university studies is ![](https://c.tenor.com/8druEACXtX8AAAAd/tenor.gif)
+![Funny math](https://i.imgflip.com/9lhake.jpg)
+
+## valorant
+I love playing *fps games* also Valorant is a **team-based**
+
+1.Play with friends in team-based matches or join forces in cooperative modes.
+
+*gaming
+
+Here's a GIF showing what it looks like when you're having a bad aim day and whiff your shots:
+
+![Bad Aim Day Whiff](https://i.imgflip.com/9mt8y3.gif)
+
+Interested in making your study time a bit more fun? Create your own memes related to stats220 or Valorant with [Imgflip's Meme Generator](https://imgflip.com/memegenerator)! It's a great way to lighten up the learning process and share laughs with your classmates.
+
+
