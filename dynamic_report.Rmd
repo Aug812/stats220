@@ -1,10 +1,10 @@
 ---
 title: My dynamic report
-output: html_fragment
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.path = "figures/", fig.width = 7, fig.height = 5)
 
 library(tidyverse)
 
@@ -15,7 +15,7 @@ latest_data <- logged_data %>%
     times = `How many times do you go to the gym per week? (0-10 times)`,
     gym_name = `Which gym do you usually go to?`,
     exercise = `What kind of exercise or weight loss activities do you usually do at the gym?`
-        )
+  )
 
 summary_min <- min(latest_data$times, na.rm = TRUE)
 summary_max <- max(latest_data$times, na.rm = TRUE)
@@ -32,7 +32,7 @@ gym_number <- ggplot(latest_data, aes(x = gym_name)) +
     title = "Which Gym is the Most Popular",
     x = "Gym Name",
     y = "Number of Visits" 
-) +
+  ) +
   theme_minimal() +
   coord_flip()
 
@@ -45,38 +45,48 @@ gym_exercise <- ggplot(latest_data, aes(x = exercise)) +
   ) +
   theme_minimal() +
   coord_flip()
-
-
-
-
 ```
 
 ```{css}
-
-body{font-family:, sans-serif;
+body {
+  font-family: sans-serif;
   line-height: 1.6;
   color: #333;
-  background-color: #edc0ec;
+  background-color: #ffffff;
   padding: 20px;
-  
+}
+
 h2 {
-  font-size: 2em;
+  color: #ae18db;
   border-bottom: 2px solid #2980B9;
   padding-bottom: 5px;
   margin-bottom: 20px;
 }
 
-
-
-
+p {
+  margin-bottom: 15px;
 }
 
+table {
+  width: 60%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
 
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 2px solid #cceeee;
+}
+
+th {
+  background-color: #f0f;
+}
 ```
 
 ## My Gym Data Report
 
-This report explores the gym habits of respondents. On average, people visited the gym `r summary_mean` times per week, with a minimum frequency of `r summary_min` visits and a maximum frequency of `r summary_max` visits.
+This report analyzes which gyms people visit, the equipment they use at these gyms, and how often they go, with most respondents attending the gym about once per week.
 
 ### Data Description:
 
@@ -94,7 +104,6 @@ This bar chart shows the types of exercises respondents typically engage in at t
 gym_exercise
 ```
 
-
 ```{r}
 library(knitr)
 
@@ -103,19 +112,9 @@ summary_df <- data.frame(
   Value = c(summary_min, summary_max, summary_mean)
 )
 
-kable(summary_df, caption = "Summary Statistics for Gym Attendance")
-
-library(knitr)
-
-summary_df <- data.frame(
-  Statistic = c("Minimum", "Maximum", "Mean"),
-  Value = c(summary_min, summary_max, summary_mean)
-)
-
+kable(summary_df, format = "markdown", caption = "Summary Statistics for Gym Attendance")
 ```
 
 In this data analysis, the minimum number of times users go to the gym per week is `r summary_min`, the maximum is `r summary_max`, and the average is `r summary_mean`.
-
-
 
 
