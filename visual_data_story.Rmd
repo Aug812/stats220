@@ -1,3 +1,4 @@
+
 ---
 title: "University of Auckland Gym Observation Project"
 author: "Jiaen Wu"
@@ -8,7 +9,9 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
-
+library(tidyverse)
+library(lubridate)
+library(stringr)
 ```
 
 ```{js}
@@ -31,7 +34,43 @@ $(function() {
 ```
 
 ```{css}
+body {
+  font-family: sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #ffffff;
+  padding: 20px;
+}
+
+h2 {
+  color: #ae18db;
+  border-bottom: 2px solid #2980B9;
+  padding-bottom: 5px;
+  margin-bottom: 20px;
+}
+
+p {
+  margin-bottom: 15px;
+}
+
+table {
+  width: 60%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 2px solid #cceeee;
+}
+
+th {
+  background-color: #f0f;
+}
+
 .figcaption {display: none}
+
 ```
 
 ## Introduction
@@ -41,10 +80,6 @@ The University of Auckland's gym activity is observed and reported in this data 
 ## Observed Activity Types
 
 ```{r}
-
-library(tidyverse)
-library(lubridate)
-library(stringr)
 
 data_url <- "https://docs.google.com/spreadsheets/d/e/2PACX-1vRiqEG6I5hXeg7G_AUod36rHLdspdr5f_EtcdSmT8Z6ztN7D6iJzCp4HL_4Q7Ety9g-i9l6UKqIW8rc/pub?output=csv"
 logged_data <- read_csv(data_url)
@@ -106,8 +141,7 @@ ggplot(logged_data, aes(x = time_period)) +
 This plot shows that gym visits were most common in the evening, followed by afternoon and morning visits.
 
 ## Conclusion
-According to the gym activity data, the majority of students favour strength training and aerobic exercises, the majority visit the UoA Recreation Centre, and evenings are the busiest times.
-
+According to observational data, strength training and aerobic exercises are preferred by the majority of University of Auckland gym patrons. Due to its accessibility and cost for students, the UoA Recreation Centre is by far the most popular gym venue. Evenings see the highest gym attendance, suggesting that students prefer to work out after work or classes. This observational study's short time frame and failure to take seasonal or special event variations into account are two of its limitations. To have a better knowledge of gym usage behaviours, future research should look into demographic aspects like age and gender or further investigate patterns between weekdays and weekends.
 
 
 
