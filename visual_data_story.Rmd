@@ -1,0 +1,147 @@
+---
+title: "University of Auckland Gym Observation Project"
+author: "Jiaen Wu"
+output: html_document
+---
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+library(tidyverse)
+library(lubridate)
+library(stringr)
+
+```
+
+```{js}
+$(function() {
+  $(".level2").css('visibility', 'hidden');
+  $(".level2").first().css('visibility', 'visible');
+  $(".container-fluid").height($(".container-fluid").height() + 300);
+  $(window).on('scroll', function() {
+    $('h2').each(function() {
+      var h2Top = $(this).offset().top - $(window).scrollTop();
+      var windowHeight = $(window).height();
+      if (h2Top >= 0 && h2Top <= windowHeight / 2) {
+        $(this).parent('div').css('visibility', 'visible');
+      } else if (h2Top > windowHeight / 2) {
+        $(this).parent('div').css('visibility', 'hidden');
+      }
+    });
+  });
+})
+```
+
+```{css}
+body {
+  font-family: sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #ffffff;
+  padding: 20px;
+}
+
+h2 {
+  color: #ae18db;
+  border-bottom: 2px solid #2980B9;
+  padding-bottom: 5px;
+  margin-bottom: 20px;
+}
+
+p {
+  margin-bottom: 15px;
+}
+
+table {
+  width: 60%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 2px solid #cceeee;
+}
+
+th {
+  background-color: #f0f;
+}
+
+.figcaption {display: none}
+
+```
+
+## Introduction
+The University of Auckland's gym activity is observed and reported in this data narrative. Over several days, I kept track of the activities, locations, and times spent at the gym. The goal is to investigate the most popular activities, the most popular gyms, and the times when individuals visit.
+
+
+## Observed Activity Types
+
+```{r fig.alt="Bar chart showing observed gym activities; strength training and cardio are most popular."}
+
+data_url <- "https://docs.google.com/spreadsheets/d/e/2PACX-1vRiqEG6I5hXeg7G_AUod36rHLdspdr5f_EtcdSmT8Z6ztN7D6iJzCp4HL_4Q7Ety9g-i9l6UKqIW8rc/pub?output=csv"
+logged_data <- read_csv(data_url)
+
+colnames(logged_data) <- c("Timestamp", "activity", "location", "time_period")
+
+logged_data <- logged_data %>%
+  mutate(Timestamp = ymd_hms(Timestamp))
+
+logged_data <- logged_data %>%
+  mutate(strength_training = if_else(str_detect(activity, "Strength Training"), "Yes", "No"))
+
+ggplot(logged_data, aes(x = activity)) +
+  geom_bar(fill = "#1f78b4") +
+  labs(title = "Observed Activity Types", x = "Activity", y = "Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+This plot shows that strength training and cardio were the most popular observed activities.
+
+## Observations by Location
+```{r fig.alt="Bar chart showing gym visit counts by location; UoA Recreation Centre is most popular."}
+
+location_summary <- logged_data %>%
+  group_by(location) %>%
+  summarise(observations = n())
+
+ggplot(location_summary, aes(x = location, y = observations)) +
+  geom_col(fill = "#33a02c") +
+  labs(title = "Observations by Location", x = "Location", y = "Count") +
+  theme_minimal()
+```
+
+This plot shows that the UoA Recreation Centre was the most frequently visited gym.
+
+
+
+## Observation by Time Period
+
+```{r fig.alt="Bar chart showing gym visits by time period; evenings have the highest attendance."}
+
+logged_data <- logged_data %>%
+  mutate(hour = hour(Timestamp),
+         time_of_day = case_when(
+           hour >= 6 & hour < 12 ~ "Morning (6am-12pm)",
+           hour >= 12 & hour < 18 ~ "Afternoon (12pm-6pm)",
+           hour >= 18 ~ "Evening (6pm-12am)",
+           TRUE ~ "Late Night (12am-6am)"
+         ))
+
+ggplot(logged_data, aes(x = time_period)) +
+  geom_bar(fill = "#ff7f00") +
+  labs(title = "Observation by Time Period (Form Input)", x = "Time of Day", y = "Count") +
+  theme_minimal()
+
+```
+
+This plot shows that gym visits were most common in the evening, followed by afternoon and morning visits.
+
+## Conclusion
+According to observational data, strength training and aerobic exercises are preferred by the majority of University of Auckland gym patrons. Due to its accessibility and cost for students, the UoA Recreation Centre is by far the most popular gym venue. Evenings see the highest gym attendance, suggesting that students prefer to work out after work or classes. This observational study's short time frame and failure to take seasonal or special event variations into account are two of its limitations. To have a better knowledge of gym usage behaviours, future research should look into demographic aspects like age and gender or further investigate patterns between weekdays and weekends.
+
+
+
